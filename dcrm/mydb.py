@@ -1,15 +1,24 @@
-import mysql.connector
+import pymysql
 
-dataBase = mysql.connector.connect(
-    host = 'localhost',
-    user = 'root',
-    passwd = 'password'
-)
+# Параметри підключення до бази даних
+db_params = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': 'password',
+}
 
-#prepare cursor object
-cursorObject = dataBase.cursor()
+# Підключення до сервера бази даних
+connection = pymysql.connect(**db_params)
 
-#creating database
-cursorObject.execute('CREATE DATABASE romkacorp')
+# Створення курсора
+cursor = connection.cursor()
+
+# Створення бази даних
+database_name = 'romkacorp'
+cursor.execute(f"CREATE DATABASE IF NOT EXISTS {database_name}")
+
+# Закриття курсора та підключення
+cursor.close()
+connection.close()
 
 print('All Done')
